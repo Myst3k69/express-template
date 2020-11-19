@@ -4,26 +4,30 @@ const {sendResponse} = require('../utils/controllers');
 const {validateEmail, validatePassword, generatePassword} = require('../utils/users');
 
 class UsersController {
-    static find(req, res) {
+    async static find(req, res) {
         let limit = req.query.limit || 100;
         let offset = req.query.offset || null;
         let limits = [limit];
         if (offset !== null) {
             limits.push(offset)
         }
+        try {
 
+        } catch(err) {
+
+        }
         Users.read({}, limits, (err, results) => {
             sendResponse(res, err, results);
         })
     }
 
-    static findOne(req, res) {
+    async static findOne(req, res) {
         Users.read({id: req.params.id}, [1], (err, results) => {
             sendResponse(res, err, results);
         })
     }
 
-    static createOne(req, res) {
+    async static createOne(req, res) {
         if (validateEmail(req.body.email) && validatePassword(req.body.password)) {
             let data = {
                 email: req.body.email,
@@ -42,7 +46,7 @@ class UsersController {
         }
     }
 
-    static updateOne(req, res) {
+    async static updateOne(req, res) {
         let data = {};
         let valid = true;
         if (req.body.email !== undefined) {
@@ -76,7 +80,7 @@ class UsersController {
         }
     }
 
-    static deleteOne(req, res) {
+    async static deleteOne(req, res) {
         // TODO finish this example
     }
 }
